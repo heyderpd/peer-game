@@ -15,9 +15,6 @@ class JoinComponent extends Component {
       data: ''
     }
 
-console.log('fg4d564g56df4g56df4g56df4g56df4g56df4g56df456gd====================', peerKey)
-    
-
     this.startJoin()
   }
 
