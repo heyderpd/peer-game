@@ -31,8 +31,8 @@ class JoinComponent extends Component {
   startJoin() {
     if (this.state.joinTo) {
       conn
-      .join(this.state.joinTo)
-      .setOnData(this.changeState.bind(this))
+        .join(this.state.joinTo)
+        .setOnData(this.changeState.bind(this))
     }
   }
 
