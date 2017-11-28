@@ -2,7 +2,7 @@ import Connections from 'easy-p2p'
 import { equals } from 'ramda'
 
 import peerKey from '../peer-key.json'
-import { splitQuery } from '../lib/utils'
+import { splitQuery, onbeforeunload } from '../lib/utils'
 import applyRules from './rules'
 
 const gameCore = onChangeState => {
@@ -18,6 +18,7 @@ const gameCore = onChangeState => {
     state.onChangeState = onChangeState
     const conn = new Connections(peerKey)
     conn.setOnData(_onData)
+    onbeforeunload(conn.abort)
     state.conn = conn
     _startConn()
   }
@@ -47,18 +48,16 @@ const gameCore = onChangeState => {
   }
 
   const _onData = data => {
+    console.log('_onData', data)
     const game = applyRules(state.game, data)
-    console.log('_onData', [state.game, game, data])
     if (!equals(state.game, game)) {
       state.game = game
       _updateState()
-      console.log('diff!')
       return true
     }
   }
 
   const sendChoose = choosed => {
-    console.log('sendChoose', choosed, state.game)
     const payload = { choosed }
     if(_onData({ action: 'i-choose', payload })) {
       state.conn.send({ action: 'friend-choose', payload })

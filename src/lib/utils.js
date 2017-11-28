@@ -5,3 +5,5 @@ export const splitQuery = () => getSearchQuery().split('&')
 export const location = () => window.location.host
 
 export const getValue = e => e.target.value
+
+export const onbeforeunload = fx => { window.onbeforeunload = fx }

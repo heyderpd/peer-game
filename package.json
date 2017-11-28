@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "easy-p2p": "^0.2.6",
+    "easy-p2p": "^0.3.1",
     "ramda": "^0.25.0",
     "react": "^16.0.0",
     "react-copy-to-clipboard": "^5.0.1",
