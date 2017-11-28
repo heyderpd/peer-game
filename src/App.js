@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom'
 
-import Rps from './component/rps'
+import Rps from './component/rock-paper-scissors'
 import Host from './component/host'
 import Join from './component/join'
 
