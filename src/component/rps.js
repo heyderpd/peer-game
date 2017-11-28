@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import gameCore from '../lib/game'
+import { splitQuery, location } from '../lib/utils'
 
 class RPSComponent extends Component {
 
   constructor() {
     super()
     this.state = {
+      host: false,
       game: null,
       data: ''
     }
@@ -14,6 +17,7 @@ class RPSComponent extends Component {
 
   componentWillMount() {
     this.setState({
+      host: splitQuery()[0] !== 'join',
       game: new gameCore(this.changeState.bind(this))
     })
   }
@@ -24,21 +28,37 @@ class RPSComponent extends Component {
   }
 
   render() {
-    const game = this.state.game
+    const { host, game, data } = this.state
+    console.log('render', data)
 
     return (
       <div>
-        <h1>game test</h1>
-        <a href={`http://localhost:3000/rps?join&${game.getId()}`}>join-link</a>
-        <br/>
+        <h1>{ host ? 'HOST' : 'JOIN' }</h1>
+
+        {host &&
+          <CopyToClipboard text={`${location()}/rps?join&${game.getId()}`}>
+            <button>copy link and send to a friend!</button>
+          </CopyToClipboard>}
+
         <div>
           <button onClick={game.chooseRock}>rock</button>
           <button onClick={game.choosePaper}>paper</button>
           <button onClick={game.chooseScissors}>scissors</button>
         </div>
-        <pre>
-          {JSON.stringify(this.state.data, null, '  ')}
-        </pre>
+
+        <div>
+          <button onClick={game.sendRestart}>restart</button>
+        </div>
+
+        <span>
+          winner: {data.winner}
+        </span>
+
+        {host &&
+          <pre>
+            data:
+            {JSON.stringify(this.state.data, null, '  ')}
+          </pre>}
       </div>
     )
   }

@@ -3,7 +3,8 @@ import './App.css'
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom'
 
 import Rps from './component/rps'
@@ -18,7 +19,7 @@ class App extends Component {
           <Route exact path="/rps" component={Rps} />
           <Route exact path="/host" component={Host} />
           <Route exact path="/join" component={Join} />
-          <Route component={Rps} />
+          <Redirect to="/rps" />
         </Switch>
       </Router>
     )

@@ -11,11 +11,7 @@ const gameCore = onChangeState => {
     onChangeState: null,
     mode: '',
     id: '',
-    game: {
-      started: true,
-      myChoose: '',
-      friendChoose: ''
-    }
+    game: null
   }
 
   const _initialize = onChangeState => {
@@ -36,33 +32,43 @@ const gameCore = onChangeState => {
     } else {
       state.conn.host()
     }
-    console.log(mode, id, state.conn)
+  }
+
+  const _testState = () => {
+    _onData({ action: 'test-end-game' })
   }
 
   const _updateState = () => {
     console.log('_updateState', state.game)
+    _testState()
     if (typeof(state.onChangeState) === 'function') {
       state.onChangeState(state.game)
     }
   }
 
   const _onData = data => {
-    console.log('_onData', data)
     const game = applyRules(state.game, data)
+    console.log('_onData', [state.game, game, data])
     if (!equals(state.game, game)) {
       state.game = game
       _updateState()
+      console.log('diff!')
+      return true
     }
   }
 
   const sendChoose = choosed => {
     console.log('sendChoose', choosed, state.game)
-    state.game.myChoose = choosed
-    state.conn.send({
-      action: 'friend-choose',
-      payload: { choosed }
-    })
-    _updateState()
+    const payload = { choosed }
+    if(_onData({ action: 'i-choose', payload })) {
+      state.conn.send({ action: 'friend-choose', payload })
+    }
+  }
+
+  const sendRestart = () => {
+    if(_onData({ action: 'i-restart' })) {
+      state.conn.send({ action: 'friend-restart' })
+    }
   }
 
   const object = {}
@@ -74,6 +80,8 @@ const gameCore = onChangeState => {
   object.choosePaper = () => sendChoose('paper')
 
   object.chooseScissors = () => sendChoose('scissors')
+
+  object.sendRestart = () => sendRestart()
 
   _initialize(onChangeState)
 
