@@ -35,30 +35,31 @@ class RPSComponent extends Component {
       <div>
         <h1>{ host ? 'HOST' : 'JOIN' }</h1>
 
-        {host &&
-          <CopyToClipboard text={`${location()}/rps?join&${game.getId()}`}>
-            <button>copy link and send to a friend!</button>
-          </CopyToClipboard>}
+        { host &&
+          <div>
+              <CopyToClipboard text={`${location()}/rps?join&${game.getId()}`}>
+                <button>copy link and send to a friend!</button>
+              </CopyToClipboard>
+            <pre>
+              data:
+              {JSON.stringify(this.state.data, null, '  ')}
+            </pre>
+          </div> }
 
-        <div>
-          <button onClick={game.chooseRock}>rock</button>
-          <button onClick={game.choosePaper}>paper</button>
-          <button onClick={game.chooseScissors}>scissors</button>
-        </div>
-
-        <div>
-          <button onClick={game.sendRestart}>restart</button>
-        </div>
-
-        <span>
-          winner: {data.winner}
-        </span>
-
-        {host &&
-          <pre>
-            data:
-            {JSON.stringify(this.state.data, null, '  ')}
-          </pre>}
+        { data.winner
+          ? (
+            <div>
+              {data.winner}!
+              <button onClick={game.sendRestart}>restart</button>
+            </div>
+          )
+          : (
+            <div>
+              <button onClick={game.chooseRock}>rock</button>
+              <button onClick={game.choosePaper}>paper</button>
+              <button onClick={game.chooseScissors}>scissors</button>
+            </div>
+          ) }
       </div>
     )
   }

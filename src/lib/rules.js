@@ -23,10 +23,10 @@ const whatWin = (choiceA, choiceB) => {
 
 const whoPlayerWin = (playerA, playerB) => {
   if (whatWin(playerA, playerB)) {
-    return 'i'
+    return 'you win'
 
   } else if (whatWin(playerB, playerA)) {
-    return 'friend'
+    return 'friend win'
 
   } else {
     return 'draw'
