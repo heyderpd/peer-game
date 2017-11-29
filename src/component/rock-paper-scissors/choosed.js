@@ -6,7 +6,7 @@ const Choosed = ({ onClick, card }) => {
       className='cp-choosed'
       onClick={onClick}
     >
-      <img src={`/${card}.png`} height="42" width="42"/>
+      <img src={`${process.env.PUBLIC_URL}/${card}.png`} height="42" width="42"/>
     </button>
   )
 }
