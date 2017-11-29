@@ -1,12 +1,12 @@
 import React from 'react'
 
-const Choosed = ({ onClick, children }) => {
+const Choosed = ({ onClick, card }) => {
   return (
     <button
       className='cp-choosed'
       onClick={onClick}
     >
-      { children }
+      <img src={`/${card}.png`} height="42" width="42"/>
     </button>
   )
 }

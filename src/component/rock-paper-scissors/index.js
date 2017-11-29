@@ -38,13 +38,18 @@ class RockPaperScissorsComponent extends Component {
     const middleComponent = function(){
       console.log(['middleComponent', data])
       if (data.mode === 'waiting') {
-        return (<span> waiting a friend... </span>)
+        return (<span> waiting a friend join... </span>)
 
       } else if (data.winner) {
         return (<Restart {...game} {...data} />)
 
       } else if (data.myChoose) {
-        return (<Choosed> {data.myChoose} </Choosed>)
+        return (
+          <div>
+            <span> waiting a friend choose... </span>
+            <Choosed card={data.myChoose} />
+          </div>
+        )
 
       } else {
         return (<Options {...game} />)
@@ -52,19 +57,26 @@ class RockPaperScissorsComponent extends Component {
     }
 
     return (
-      <div>
-        <h1>{ host ? 'HOST' : 'JOIN' }</h1>
+      <div className="game">
+        <h1>Rock Paper Scissors</h1>
+        <h3>
+          { host
+            ? `Hosting with id [${game.getId()}]`
+            : `Join with id [${game.getId()}]` }
+        </h3>
 
         { host &&
           <CopyLink {...game} /> }
 
+        <div className="middle">
+          {middleComponent()}
+        </div>
+
         { host && hasLog() &&
           <pre>
-            data:
-            {JSON.stringify(this.state.data, null, '  ')}
+            debug:
+            {JSON.stringify(this.state, null, '  ')}
           </pre> }
-
-        { middleComponent() }
       </div>
     )
   }

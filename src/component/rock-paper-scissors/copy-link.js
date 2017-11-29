@@ -4,13 +4,15 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { location } from '../../lib/utils'
 
 const CopyLink = ({ getId }) => {
+  const link = `${location()}/peer-game/?join=${getId()}`
+
   return (
     <div className='cp-copy'>
-      <span>
-        ID: { getId() }
-      </span>
-      <CopyToClipboard text={`${location()}/peer-game/?join=${getId()}`} >
-        <button>copy link and send to a friend!</button>
+      <span>Send link to your friend!</span>
+      <CopyToClipboard text={link} >
+        <button className="btn-style">
+          click to copy
+        </button>
       </CopyToClipboard>
     </div>
   )

@@ -18,14 +18,16 @@ class App extends Component {
     memorize()
 
     return (
-      <Router basename="peer-game">
-        <Switch>
-          <Route exact path="/rps" component={Rps} />
-          <Route exact path="/host" component={Host} />
-          <Route exact path="/join" component={Join} />
-          <Redirect to="/rps" />
-        </Switch>
-      </Router>
+      <div className="App">
+        <Router basename="peer-game">
+          <Switch>
+            <Route exact path="/rps" component={Rps} />
+            <Route exact path="/host" component={Host} />
+            <Route exact path="/join" component={Join} />
+            <Redirect to="/rps" />
+          </Switch>
+        </Router>
+      </div>
     )
   }
 }

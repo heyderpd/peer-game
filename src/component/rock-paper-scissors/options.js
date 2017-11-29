@@ -5,10 +5,10 @@ import Choosed from './choosed'
 const Options = ({ chooseRock, choosePaper, chooseScissors }) => {
   return (
     <div className='cp-options'>
-      Choose!
-      <Choosed onClick={chooseRock}>rock</Choosed>
-      <Choosed onClick={choosePaper}>paper</Choosed>
-      <Choosed onClick={chooseScissors}>scissors</Choosed>
+      <span>Choose!</span>
+      <Choosed onClick={chooseRock} card='rock' />
+      <Choosed onClick={choosePaper} card='paper' />
+      <Choosed onClick={chooseScissors} card='scissors' />
     </div>
   )
 }
