@@ -14,7 +14,7 @@ import Join from './component/join'
 class App extends Component {
   render() {
     return (
-      <Router>
+      <Router basename="peer-game">
         <Switch>
           <Route exact path="/rps" component={Rps} />
           <Route exact path="/host" component={Host} />
