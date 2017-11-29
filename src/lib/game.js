@@ -2,7 +2,7 @@ import Connections from 'easy-p2p'
 import { equals } from 'ramda'
 
 import peerKey from '../peer-key.json'
-import { splitQuery, onbeforeunload } from '../lib/utils'
+import { hasJoin, getJoinId, splitQuery, onbeforeunload } from '../lib/utils'
 import applyRules from './rules'
 
 const gameCore = onChangeState => {
@@ -24,13 +24,12 @@ const gameCore = onChangeState => {
   }
 
   const _startConn = () => {
-    const [ mode, id ] = splitQuery()
-    state.mode = mode
-    state.id = id
-
-    if (state.mode === 'join') {
+    state.id = getJoinId()
+    if (hasJoin()) {
+      state.mode = 'join'
       state.conn.join(state.id)
     } else {
+      state.mode = 'host'
       state.conn.host()
     }
   }

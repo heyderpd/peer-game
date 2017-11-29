@@ -7,12 +7,16 @@ import {
   Redirect
 } from 'react-router-dom'
 
+import { memorize } from './lib/utils'
+
 import Rps from './component/rock-paper-scissors'
 import Host from './component/host'
 import Join from './component/join'
 
 class App extends Component {
   render() {
+    memorize()
+
     return (
       <Router basename="peer-game">
         <Switch>

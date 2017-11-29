@@ -1,3 +1,4 @@
+const waiting = 'waiting'
 const started = 'started'
 const showResult = 'showResult'
 
@@ -34,7 +35,7 @@ const whoPlayerWin = (playerA, playerB) => {
 }
 
 const initialState = {
-  mode: started,
+  mode: waiting,
   winner: '',
   myChoose: '',
   friendChoose: ''
@@ -68,6 +69,11 @@ const applyRules = (state = initialState, { action, payload }) => {
   const { mode, myChoose, friendChoose } = state
 
   switch (action) {
+    case 'easy-p2p:info':
+      return ifCant(mode === waiting && payload.title === 'on.connection')(
+        state,
+        { mode: started })
+
     case 'i-restart':
     case 'friend-restart':
       return ifCant(mode === showResult)(

@@ -6,7 +6,7 @@ import Options from './options'
 import Restart from './restart'
 import CopyLink from './copy-link'
 import Choosed from './choosed'
-import { splitQuery } from '../../lib/utils'
+import { hasJoin, hasLog } from '../../lib/utils'
 
 class RockPaperScissorsComponent extends Component {
 
@@ -21,7 +21,7 @@ class RockPaperScissorsComponent extends Component {
 
   componentWillMount() {
     this.setState({
-      host: splitQuery()[0] !== 'join',
+      host: !hasJoin(),
       game: new gameCore(this.changeState.bind(this))
     })
   }
@@ -36,12 +36,15 @@ class RockPaperScissorsComponent extends Component {
     console.log('render', data)
 
     const middleComponent = function(){
-      console.log(['middleComponent', !!data.winner, !!data.myChoose])
-      if (data.winner) {
+      console.log(['middleComponent', data])
+      if (data.mode === 'waiting') {
+        return (<span> waiting a friend... </span>)
+
+      } else if (data.winner) {
         return (<Restart {...game} {...data} />)
 
       } else if (data.myChoose) {
-        return (<Choosed value={data.myChoose} />)
+        return (<Choosed> {data.myChoose} </Choosed>)
 
       } else {
         return (<Options {...game} />)
@@ -55,7 +58,7 @@ class RockPaperScissorsComponent extends Component {
         { host &&
           <CopyLink {...game} /> }
 
-        { host &&
+        { host && hasLog() &&
           <pre>
             data:
             {JSON.stringify(this.state.data, null, '  ')}
