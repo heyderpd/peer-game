@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "docs": "rm -rf docs && mkdir docs && cp -a ./build/. ./docs/",
+    "build": "PUBLIC_URL=. react-scripts build && npm run docs",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
