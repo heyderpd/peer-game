@@ -6,7 +6,7 @@ import Options from './options'
 import Restart from './restart'
 import CopyLink from './copy-link'
 import Choosed from './choosed'
-import { splitQuery, location } from '../../lib/utils'
+import { splitQuery } from '../../lib/utils'
 
 class RockPaperScissorsComponent extends Component {
 

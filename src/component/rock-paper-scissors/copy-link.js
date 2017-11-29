@@ -5,7 +5,7 @@ import { location } from '../../lib/utils'
 
 const CopyLink = ({ getId }) => {
   return (
-    <CopyToClipboard text={`${location()}/rps?join&${getId()}`}>
+    <CopyToClipboard text={`${location()}?join&${getId()}`}>
       <button>copy link and send to a friend!</button>
     </CopyToClipboard>
   )
