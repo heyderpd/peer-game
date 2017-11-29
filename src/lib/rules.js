@@ -78,7 +78,7 @@ const applyRules = (state = initialState, { action, payload }) => {
     case 'friend-restart':
       return ifCant(mode === showResult)(
         state,
-        initialState)
+        { ...initialState, ...{ mode: started } })
 
     case 'i-choose':
       return ifCant(mode === started)(
