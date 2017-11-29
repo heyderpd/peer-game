@@ -1,11 +1,14 @@
 import React from 'react'
 
+import Choosed from './choosed'
+
 const Options = ({ chooseRock, choosePaper, chooseScissors }) => {
   return (
-    <div>
-      <button onClick={chooseRock}>rock</button>
-      <button onClick={choosePaper}>paper</button>
-      <button onClick={chooseScissors}>scissors</button>
+    <div className='cp-options'>
+      Choose!
+      <Choosed onClick={chooseRock}>rock</Choosed>
+      <Choosed onClick={choosePaper}>paper</Choosed>
+      <Choosed onClick={chooseScissors}>scissors</Choosed>
     </div>
   )
 }

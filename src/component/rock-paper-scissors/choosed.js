@@ -1,8 +1,13 @@
 import React from 'react'
 
-const Choosed = ({ value }) => {
+const Choosed = ({ onClick, children }) => {
   return (
-    <span>{ value }</span>
+    <button
+      className='cp-choosed'
+      onClick={onClick}
+    >
+      { children }
+    </button>
   )
 }
 

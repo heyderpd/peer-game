@@ -5,9 +5,14 @@ import { location } from '../../lib/utils'
 
 const CopyLink = ({ getId }) => {
   return (
-    <CopyToClipboard text={`${location()}?join&${getId()}`}>
-      <button>copy link and send to a friend!</button>
-    </CopyToClipboard>
+    <div className='cp-copy'>
+      <span>
+        ID: { getId() }
+      </span>
+      <CopyToClipboard text={`${location()}/peer-game/?join=${getId()}`} >
+        <button>copy link and send to a friend!</button>
+      </CopyToClipboard>
+    </div>
   )
 }
 

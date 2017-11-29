@@ -4,16 +4,18 @@ import Choosed from './choosed'
 
 const Restart = ({ sendRestart, winner, myChoose, friendChoose }) => {
   return (
-    <div>
+    <div className='cp-restart'>
       <span>
         you choose:
-        <Choosed value={myChoose} />
+        <Choosed> {myChoose} </Choosed>
       </span>
       <span>
         friend choose:
-        <Choosed value={friendChoose} />
+        <Choosed> {friendChoose} </Choosed>
       </span>
-      {winner}!
+      <span>
+        Result: {winner}!
+      </span>
       <button onClick={sendRestart}>restart</button>
     </div>
   )
