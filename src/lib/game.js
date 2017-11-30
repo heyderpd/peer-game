@@ -2,8 +2,10 @@ import Connections from 'easy-p2p'
 import { equals } from 'ramda'
 
 import peerKey from '../peer-key.json'
-import { hasJoin, getJoinId, splitQuery, onbeforeunload } from '../lib/utils'
+import { hasJoin, getJoinId, splitQuery, onbeforeunload, time, randomId } from '../lib/utils'
 import applyRules from './rules'
+
+const pool = {}
 
 const gameCore = onChangeState => {
   const state = {
@@ -11,7 +13,7 @@ const gameCore = onChangeState => {
     onChangeState: null,
     mode: '',
     id: '',
-    game: null
+    game: {}
   }
 
   const _initialize = onChangeState => {
@@ -32,6 +34,7 @@ const gameCore = onChangeState => {
       state.mode = 'host'
       state.conn.host()
     }
+    state.game.id = object.getId()
   }
 
   const _testState = () => {
@@ -46,8 +49,47 @@ const gameCore = onChangeState => {
     }
   }
 
+  const _addToPool = Package => {
+    pool[Package.pkgId] = { Package, time: time() }
+  }
+
+  const _getFromPool = msg => {
+    const item = pool[msg.pkgId]
+    console.log('_getFromPool', pool, item, msg)
+    if (item) {
+      return item.Package
+    }
+  }
+
+  const _send = (action, payload = {}) => {
+    const Package = {
+      pkgId: randomId(),
+      action,
+      payload
+    }
+    _addToPool(Package)
+    state.conn.send(Package)
+  }
+
+  const _confirmeReceive = Package => {
+    if (Package.pkgId) {
+      state.conn.send({ received: true, pkgId: Package.pkgId })
+    }
+  }
+
   const _onData = data => {
     console.log('_onData', data)
+    if (data.received && data.pkgId) {
+      _evaluateRules(_getFromPool(data))
+
+    } else {
+      _confirmeReceive(data)
+      _evaluateRules(data)
+    }
+  }
+
+  const _evaluateRules = data => {
+    console.log('_evaluateRules', data)
     const game = applyRules(state.game, data)
     if (!equals(state.game, game)) {
       state.game = game
@@ -57,19 +99,17 @@ const gameCore = onChangeState => {
   }
 
   const sendChoose = choosed => {
-    const payload = { choosed }
-    if(_onData({ action: 'i-choose', payload })) {
-      state.conn.send({ action: 'friend-choose', payload })
-    }
+    const payload = { id: object.getId(), choosed }
+    _send('choose', payload)
   }
 
   const sendRestart = () => {
-    if(_onData({ action: 'i-restart' })) {
-      state.conn.send({ action: 'friend-restart' })
-    }
+    _send('restart')
   }
 
   const object = {}
+
+  object.getJoinId = () => state.id
 
   object.getId = () => state.conn.getId()
 

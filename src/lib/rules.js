@@ -42,8 +42,8 @@ const initialState = {
 }
 
 const initializeState = state => {
-  if (state === null) {
-    return initialState
+  if (Object.keys(state).length <= 1) {
+    return merge(state, initialState)
 
   } else {
     return state
@@ -66,7 +66,7 @@ const ifCant = rule => (state, newState) => {
 
 const applyRules = (state = initialState, { action, payload }) => {
   state = initializeState(state)
-  const { mode, myChoose, friendChoose } = state
+  const { id, mode, myChoose, friendChoose } = state
 
   switch (action) {
     case 'easy-p2p:info':
@@ -74,21 +74,22 @@ const applyRules = (state = initialState, { action, payload }) => {
         state,
         { mode: started })
 
-    case 'i-restart':
-    case 'friend-restart':
+    case 'restart':
       return ifCant(mode === showResult)(
         state,
         { ...initialState, ...{ mode: started } })
 
-    case 'i-choose':
-      return ifCant(mode === started)(
-        state,
-        { myChoose: payload.choosed })
+    case 'choose':
+      if (id === payload.id) {
+        return ifCant(mode === started)(
+          state,
+          { myChoose: payload.choosed })
 
-    case 'friend-choose':
-      return ifCant(mode === started)(
-        state,
-        { friendChoose: payload.choosed })
+      } else {
+        return ifCant(mode === started)(
+          state,
+          { friendChoose: payload.choosed })
+      }
 
     case 'test-end-game':
       return ifCant(mode === started && myChoose && friendChoose)(

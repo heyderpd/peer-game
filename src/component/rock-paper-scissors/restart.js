@@ -6,11 +6,11 @@ const Restart = ({ sendRestart, winner, myChoose, friendChoose }) => {
   return (
     <div className='cp-restart'>
       <div className='choosed-box'>
-        <span>you choose:</span>
+        <span>You:</span>
         <Choosed card={myChoose} />
       </div>
       <div className='choosed-box'>
-        <span>friend choose:</span>
+        <span>Friend:</span>
         <Choosed card={friendChoose} />
       </div>
       <div>

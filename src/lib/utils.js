@@ -1,3 +1,5 @@
+import randomstring from 'randomstring'
+
 export const getSearchQuery = () => window.location.search
 
 export const splitQuery = () => remember().substr(1).split('&')
@@ -30,3 +32,7 @@ const memo = {}
 export const memorize = () => { memo.search = getSearchQuery() }
 
 export const remember = () => memo.search
+
+export const time = () => new Date().getTime()
+
+export const randomId = () => randomstring.generate(5)

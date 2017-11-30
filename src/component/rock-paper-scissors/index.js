@@ -62,7 +62,7 @@ class RockPaperScissorsComponent extends Component {
         <h3>
           { host
             ? `Hosting with id [${game.getId()}]`
-            : `Join with id [${game.getId()}]` }
+            : `Join in [${game.getJoinId()}]` }
         </h3>
 
         { host &&
@@ -75,7 +75,7 @@ class RockPaperScissorsComponent extends Component {
         { host && hasLog() &&
           <pre>
             debug:
-            {JSON.stringify(this.state, null, '  ')}
+            {JSON.stringify(this.state.data, null, '  ')}
           </pre> }
       </div>
     )
